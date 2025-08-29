@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bajo las estrellas...</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #0d1b2a, #1b263b);
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .estrella {
+      position: absolute;
+      top: -50px;
+      left: -100px;
+      width: 2px;
+      height: 2px;
+      background: white;
+      box-shadow: 0 0 10px white;
+      animation: estrella 3s ease-in-out infinite;
+    }
+
+    @keyframes estrella {
+      0% { transform: translate(0, 0); opacity: 1; }
+      100% { transform: translate(600px, 300px); opacity: 0; }
+    }
+
+    .caja {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      animation: aparecer 2s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: #ffd6a5;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-bottom: 30px;
+      color: #fefae0;
+    }
+
+    .botones {
+      position: relative;
+      height: 100px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      position: absolute;
+    }
+
+    #si {
+      background-color: #ffb703;
+      color: #000;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #no {
+      background-color: #8ecae6;
+      color: #023047;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="estrella"></div>
+
+  <div class="caja" id="caja">
+    <h1>¿Me acompañarías a mirar las estrellas?</h1>
+    <p>Dicen que cuando una estrella cae, alguien está pensando en ti. Esta noche, esa persona soy yo.</p>
+    <div class="botones">
+      <button id="si">Sí 🌠</button>
+      <button id="no" style="top: 60px; left: 60px;">No 🌧️</button>
+    </div>
+  </div>
+
+  <script>
+    // Botón "Sí" muestra mensaje especial
+    document.getElementById('si').addEventListener('click', () => {
+      document.getElementById('caja').innerHTML = `
+        <h1>Gracias por decir que sí ✨</h1>
+        <p>Prometo que cada estrella será un deseo compartido, y cada noche una historia que solo tú y yo entenderemos.</p>
+      `;
+    });
+
+    // Botón "No" se escapa del cursor
+    const btnNo = document.getElementById('no');
+    const botones = document.querySelector('.botones');
+
+    botones.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const rect = btnNo.getBoundingClientRect();
+      const distancia = Math.hypot(mouseX - rect.left, mouseY - rect.top);
+
+      if (distancia < 100) {
+        const nuevoX = Math.random() * (botones.offsetWidth - btnNo.offsetWidth);
+        const nuevoY = Math.random() * (botones.offsetHeight - btnNo.offsetHeight);
+        btnNo.style.left = `${nuevoX}px`;
+        btnNo.style.top = `${nuevoY}px`;
+      }
+    });
+  </script>
+</body>
+</html>
